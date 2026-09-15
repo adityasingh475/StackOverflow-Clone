@@ -39,9 +39,9 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       seterror(error);
       throw error;
+    } finally {
+      setloading(false);
     }
-
-    setloading(false);
   };
 
   const Login = async ({ email, password }) => {
@@ -65,9 +65,9 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       seterror(error);
       throw error;
+    } finally {
+      setloading(false);
     }
-
-    setloading(false);
   };
 
   return (
