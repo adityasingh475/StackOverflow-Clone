@@ -34,8 +34,24 @@ export default function SignUpPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    const formData = new FormData(e.currentTarget);
+
+    const signupData = {
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      password: String(formData.get("password") || ""),
+    };
+
+    if (
+      !signupData.name ||
+      !signupData.email ||
+      !signupData.password
+    ) {
+      return;
+    }
+
     try {
-      await Signup(form);
+      await Signup(signupData);
       router.push("/");
     } catch (error) {
       console.log(error);
@@ -46,7 +62,10 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <Link href="/" className="flex items-center justify-center mb-4">
+          <Link
+            href="/"
+            className="flex items-center justify-center mb-4"
+          >
             <div className="w-6 h-6 lg:w-8 lg:h-8 bg-orange-500 rounded mr-2 flex items-center justify-center">
               <div className="w-4 h-4 lg:w-6 lg:h-6 bg-white rounded-sm flex items-center justify-center">
                 <div className="w-3 h-3 lg:w-4 lg:h-4 bg-orange-500 rounded-sm"></div>
@@ -107,6 +126,7 @@ export default function SignUpPage() {
 
                 <Input
                   id="name"
+                  name="name"
                   placeholder="Enter your display name"
                   value={form.name}
                   onChange={handleChange}
@@ -120,6 +140,7 @@ export default function SignUpPage() {
 
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   value={form.email}
@@ -134,6 +155,7 @@ export default function SignUpPage() {
 
                 <Input
                   id="password"
+                  name="password"
                   type="password"
                   value={form.password}
                   onChange={handleChange}
@@ -148,7 +170,10 @@ export default function SignUpPage() {
               <div className="flex items-start space-x-2">
                 <Checkbox id="terms" className="mt-1" />
 
-                <Label htmlFor="terms" className="text-sm leading-relaxed">
+                <Label
+                  htmlFor="terms"
+                  className="text-sm leading-relaxed"
+                >
                   I agree to the{" "}
                   <Link
                     href="#"
